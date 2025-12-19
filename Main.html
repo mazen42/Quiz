@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Quiz</title>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#" aria-label="Home">
+        <svg width="40" height="40" viewBox="0 0 64 64" role="img" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#2d8f3f"/>
+          <path d="M20 44c6-6 18-6 24 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="32" cy="26" r="6" fill="#fff"/>
+        </svg>
+        <span class="site-title">Quiz</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Categories</a></li>
+          <li><a href="#">News</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search">
+          <input type="search" placeholder="Search..." aria-label="Search" />
+          <button class="search-btn" aria-label="Search button">Search</button>
+        </div>
+
+        <div class="lang">
+          <select id="lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
+        </div>
+
+        <a class="btn login" href="#">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <div class="quiz-grid" role="application" aria-label="Quiz Application">
+      <!-- Sidebar / palette -->
+      <aside class="quiz-sidebar" aria-label="Question palette">
+        <div class="sidebar-top">
+          <div class="timer" aria-live="polite">
+            <div class="timer-label">Time left</div>
+            <div id="timer" class="timer-value">00:30:00</div>
+          </div>
+
+          <div class="progress">
+            <div class="progress-label">Progress</div>
+            <div class="progress-bar" aria-hidden="true">
+              <div id="progress-fill" class="progress-fill" style="width:20%"></div>
+            </div>
+            <div class="progress-text"><span id="answered-count">2</span>/<span id="total-count">10</span> answered</div>
+          </div>
+        </div>
+
+        <div class="question-palette-wrap">
+          <h4 class="palette-title">Questions</h4>
+          <div  id="question-palette" class="question-palette" role="list">
+          </div>
+        </div>
+
+        <div class="palette-legend">
+          <h5>Legend</h5>
+          <ul>
+            <li><span class="legend-dot not-visited"></span> Not Visited</li>
+            <li><span class="legend-dot not-answered"></span> Not Answered</li>
+            <li><span class="legend-dot answered"></span> Answered</li>
+            <li><span class="legend-dot marked"></span> Marked for Review</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-actions">
+          <button id="finish-exam" class="btn finish-exam">Finish Exam</button>
+        </div>
+      </aside>
+
+      <!-- Main question area -->
+      <section class="quiz-content" aria-live="polite">
+        <div class="question-meta">
+          <div class="q-index">Question <strong id="current-index"></strong> of <strong id="total-index"></strong></div>
+          <div class="q-actions-inline">
+            <!-- <button class="btn compact prev" id="prev-btn" aria-label="Previous question">Previous</button>
+            <button class="btn compact next" id="next-btn" aria-label="Next question">Next</button> -->
+          </div>
+        </div>
+
+        <article class="question-block" data-qid="2" aria-labelledby="q-title-2">
+          <h2 id="q-title-2" class="question-title"></h2>
+          <div class="question-body">
+            <p class="question-description"></p>
+
+            <form class="options-form" id="options-form"  onsubmit="return false;">
+              <ul class="options-list" role="list">
+              </ul>
+            </form>
+          </div>
+        </article>
+
+        <div class="question-controls">
+          <button class="btn outline clear-answer" id="clear-answer">Clear Answer</button>
+          <button class="btn outline mark-review" id="mark-review">Mark for Review</button>
+          <div class="nav-controls">
+            <button class="btn prev" id="bottom-prev">Previous</button>
+            <button class="btn next" id="bottom-next">Next</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div class="footer-brand">
+        <svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#c59f21"/>
+        </svg>
+        <p class="brand-desc">Short brand description or tagline goes here.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h4>Newsletter</h4>
+          <form class="newsletter" action="#" method="post" onsubmit="return false;">
+            <input type="email" placeholder="Your email" aria-label="Email" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom container">
+      <div>© 2025 Quiz. All rights reserved.</div>
+      <div class="social">
+        <a href="#" aria-label="Facebook">FB</a>
+        <a href="#" aria-label="Twitter">TW</a>
+        <a href="#" aria-label="LinkedIn">LI</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts.js" type="module"></script>
+</body>
+</html>
+
