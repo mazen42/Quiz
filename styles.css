@@ -27,6 +27,9 @@ body{
   line-height:1.4;
   -webkit-tap-highlight-color: transparent;
 }
+.hidden {
+    display: none;
+}
 
 /* container */
 .container{
