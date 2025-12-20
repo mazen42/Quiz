@@ -15,20 +15,44 @@ let option_item = document.querySelector(".option-item");
 let question_palette = document.querySelector("#question-palette");
 let AllQuestionsInHtml = document.getElementsByClassName("question-body");
 totalcount.innerHTML = allQuestions.length;
-LoadAllQuestions();
+window.onload = function(){
+  LoadAllQuestions();
+}
+window.onbeforeunload = function () {
+  return false;
+};
+function UpdatecurrentQuestionNumber(){
+  current_index.innerHTML = currentQuestionIndex + 1;
+}
+UpdatecurrentQuestionNumber();
 function ShowNextQuestion() {
-    if(currentQuestionIndex >= allQuestions.length){
+    if(currentQuestionIndex >= allQuestions.length - 1){
         Nextbtn.innerHTML = "Submit";
-
+        return false;
+    }else{
+      Nextbtn.innerHTML = "Next";
     }
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
     currentQuestionIndex++;
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
+    UpdatecurrentQuestionNumber();
+}
+function LoadQuestionPalette(){
+    
 }
 function ShowPrevQuestion(){
+  if(currentQuestionIndex > allQuestions.length - 1){
+        Nextbtn.innerHTML = "Submit";
+    }
+    else{
+      Nextbtn.innerHTML = "Next";
+    }
+  if(currentQuestionIndex <= 0)
+    return false;
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
     currentQuestionIndex--;
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
+    UpdatecurrentQuestionNumber();
 }
 Nextbtn.addEventListener("click",ShowNextQuestion);
 prevBtn.addEventListener("click",ShowPrevQuestion);
