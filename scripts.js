@@ -6,24 +6,28 @@ let currentQuestionIndex = 0;
 let Nextbtn = document.querySelector("#bottom-next");
 let prevBtn = document.querySelector("#bottom-prev");
 let QuestionBlock = document.querySelector(".question-block");
-let questionTitle = document.querySelector(".question-title");
-let qustiondescription = document.querySelector(".question-description");
-let optionsList = document.querySelector(".options-list");
 let totalcount = document.querySelector("#total-count");
 let current_index = document.querySelector("#current-index");
-let option_item = document.querySelector(".option-item");
 let question_palette = document.querySelector("#question-palette");
 let AllQuestionsInHtml = document.getElementsByClassName("question-body");
+let total_index = document.getElementById("total-index");
+let answered_count = document.getElementById("answered-count");
+let timerElement = document.getElementById("timer");
+
 totalcount.innerHTML = allQuestions.length;
+total_index.innerHTML = allQuestions.length;
 window.onload = function(){
   LoadAllQuestions();
   LoadQuestionPalette();
+  ShowNextQuestion(0);
+  Timer();
 }
 function UpdatecurrentQuestionNumber(){
   current_index.innerHTML = currentQuestionIndex + 1;
+  answered_count.innerHTML = currentQuestionIndex + 1;
 }
 UpdatecurrentQuestionNumber();
-function ShowNextQuestion() {
+function ShowNextQuestion(questionNumberFromPalette = null) {
     if(currentQuestionIndex >= allQuestions.length - 1){
         Nextbtn.innerHTML = "Submit";
         return false;
@@ -44,9 +48,12 @@ allQuestions.forEach(element =>{
       }
     });
 }
-    
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
-    currentQuestionIndex++;
+    if (typeof questionNumberFromPalette === "number") {
+        currentQuestionIndex = questionNumberFromPalette;
+    } else {
+        currentQuestionIndex++;
+    }
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
     UpdatecurrentQuestionNumber();
     LoadQuestionPalette();
@@ -115,10 +122,31 @@ function LoadAllQuestions(){
       }
         for(let i = 0; i < allQuestions.length; i++){
       let currQuestion = allQuestions[order[i] - 1]
-      let QuestionCircle = `
-                            <button onclick="" class="q-btn ${currQuestion.status}" data-qid="1" aria-label="Question ">${i + 1}</button>
-                          `
-      question_palette.innerHTML += QuestionCircle;
+      let btn = document.createElement("button");
+      btn.textContent = `${i + 1}`;
+      btn.classList.add("q-btn");
+      btn.classList.add(currQuestion.status);
+      btn.setAttribute("data-qid","1");
+      btn.setAttribute("aria-label","Question");
+      question_palette.appendChild(btn);
     }
     
 } 
+function Submitting(){}
+function Timer(){
+  let totalSeconds = 30 * 60;
+  const timerInterval = setInterval(() => {
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+
+    timerElement.textContent =
+        `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+    if (totalSeconds === 0) {
+        clearInterval(timerInterval);
+        Submitting();
+      } else {
+        totalSeconds--;
+    }
+}, 1000);
+}

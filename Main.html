@@ -53,7 +53,7 @@
         <div class="sidebar-top">
           <div class="timer" aria-live="polite">
             <div class="timer-label">Time left</div>
-            <div id="timer" class="timer-value">00:30:00</div>
+            <div id="timer" class="timer-value"></div>
           </div>
 
           <div class="progress">
@@ -61,7 +61,7 @@
             <div class="progress-bar" aria-hidden="true">
               <div id="progress-fill" class="progress-fill" style="width:20%"></div>
             </div>
-            <div class="progress-text"><span id="answered-count">2</span>/<span id="total-count">10</span> answered</div>
+            <div class="progress-text"><span id="answered-count"> </span>/<span id="total-count"></span> answered</div>
           </div>
         </div>
 
@@ -91,11 +91,7 @@
       <!-- Main question area -->
       <section class="quiz-content" aria-live="polite">
         <div class="question-meta">
-          <div class="q-index">Question <strong id="current-index">2</strong> of <strong id="total-index">10</strong></div>
-          <div class="q-actions-inline">
-            <button class="btn compact prev" id="prev-btn" aria-label="Previous question">Previous</button>
-            <button class="btn compact next" id="next-btn" aria-label="Next question">Next</button>
-          </div>
+          <div class="q-index">Question <strong id="current-index"></strong> of <strong id="total-index"></strong></div>
         </div>
 
         <article class="question-block" data-qid="2" aria-labelledby="q-title-2">
@@ -103,8 +99,8 @@
         </article>
 
         <div class="question-controls">
-          <button class="btn outline clear-answer" id="clear-answer">Clear Answer</button>
-          <button class="btn outline mark-review" id="mark-review">Mark for Review</button>
+          <!-- <button class="btn outline clear-answer" id="clear-answer">Clear Answer</button> -->
+          <!-- <button class="btn outline mark-review" id="mark-review">Mark for Review</button> -->
           <div class="nav-controls">
             <button class="btn prev" id="bottom-prev">Previous</button>
             <button class="btn next" id="bottom-next">Next</button>
