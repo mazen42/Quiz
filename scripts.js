@@ -17,10 +17,8 @@ let AllQuestionsInHtml = document.getElementsByClassName("question-body");
 totalcount.innerHTML = allQuestions.length;
 window.onload = function(){
   LoadAllQuestions();
+  LoadQuestionPalette();
 }
-window.onbeforeunload = function () {
-  return false;
-};
 function UpdatecurrentQuestionNumber(){
   current_index.innerHTML = currentQuestionIndex + 1;
 }
@@ -32,13 +30,26 @@ function ShowNextQuestion() {
     }else{
       Nextbtn.innerHTML = "Next";
     }
+let radios = AllQuestionsInHtml[currentQuestionIndex].querySelector("input[type='radio']:checked");
+if(radios != null){
+  allQuestions.forEach(element =>{
+      if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
+        element.status = "answered";
+      }
+    });
+}else{
+allQuestions.forEach(element =>{
+      if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
+        element.status = "not-answered";
+      }
+    });
+}
+    
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
     currentQuestionIndex++;
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
     UpdatecurrentQuestionNumber();
-}
-function LoadQuestionPalette(){
-    
+    LoadQuestionPalette();
 }
 function ShowPrevQuestion(){
   if(currentQuestionIndex > allQuestions.length - 1){
@@ -68,25 +79,25 @@ function LoadAllQuestions(){
               <ul class="options-list" role="list">
                 <li class="option-item">
                   <label class="option-label">
-                    <input type="radio" name="q2" value="A" data-choice="A" />
+                    <input type="radio" name="${currentQuestion.id}" value="A" data-choice="A" />
                     <span class="option-text">A.${currentQuestion.options.A}</span>
                   </label>
                 </li>
                 <li class="option-item">
                   <label class="option-label">
-                    <input type="radio" name="q2" value="B" data-choice="B" />
+                    <input type="radio" name="${currentQuestion.id}" value="B" data-choice="B" />
                     <span class="option-text">B.${currentQuestion.options.B}</span>
                   </label>
                 </li>
                 <li class="option-item">
                   <label class="option-label">
-                    <input type="radio" name="q2" value="C" data-choice="C" />
+                    <input type="radio" name="${currentQuestion.id}" value="C" data-choice="C" />
                     <span class="option-text">C.${currentQuestion.options.C}</span>
                   </label>
                 </li>
                 <li class="option-item">
                   <label class="option-label">
-                    <input type="radio" name="q2" value="D" data-choice="D" />
+                    <input type="radio" name="${currentQuestion.id}" value="D" data-choice="D" />
                     <span class="option-text">D.${currentQuestion.options.D}</span>
                   </label>
                 </li>
@@ -98,3 +109,16 @@ function LoadAllQuestions(){
         i++;
         }
     }
+    function LoadQuestionPalette(){
+      if(question_palette.querySelector("button") != null){
+        question_palette.innerHTML = "";
+      }
+        for(let i = 0; i < allQuestions.length; i++){
+      let currQuestion = allQuestions[order[i] - 1]
+      let QuestionCircle = `
+                            <button onclick="" class="q-btn ${currQuestion.status}" data-qid="1" aria-label="Question ">${i + 1}</button>
+                          `
+      question_palette.innerHTML += QuestionCircle;
+    }
+    
+} 
