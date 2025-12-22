@@ -97,6 +97,28 @@
         <article class="question-block" data-qid="2" aria-labelledby="q-title-2">
           
         </article>
+        <!-- Results container (replace or insert inside your <article>) -->
+<section  id="quiz-results" class="results hidden" aria-live="polite">
+  <header class="results-header">
+    <h3 class="results-title">Your Answers</h3>
+    <div class="results-summary">
+      <span class="score" id="results-score">Score: — / —</span>
+      <button id="results-toggle" class="small-btn">Toggle details</button>
+    </div>
+  </header>
+
+  <ol class="results-list" id="results-list">
+    <!-- JS will populate items like:
+      <li class="result-item correct" data-qid="q1">
+        <div class="ri-title">1. Question title here</div>
+        <div class="ri-answers">
+          <div class="ri-chosen">Your answer: <strong>B. Answer text</strong></div>
+          <div class="ri-correct">Correct: <strong>B. Answer text</strong></div>
+        </div>
+      </li>
+    -->
+  </ol>
+</section>
 
         <div class="question-controls">
           <!-- <button class="btn outline clear-answer" id="clear-answer">Clear Answer</button> -->
@@ -157,7 +179,6 @@
       </div>
     </div>
   </footer>
-
   <script src="scripts.js" type="module"></script>
 </body>
 </html>
