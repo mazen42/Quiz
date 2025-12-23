@@ -37,22 +37,25 @@ function UpdatecurrentQuestionNumber(){
   answered_count.innerHTML = currentQuestionIndex + 1;
 }
 UpdatecurrentQuestionNumber();
-function ChangeQuestionStatus(fromMark = false){
+function ChangeQuestionStatus(){
   let radios = AllQuestionsInHtml[currentQuestionIndex].querySelector("input[type='radio']:checked");
+  let elementId = AllQuestionsInHtml[currentQuestionIndex].id;
+  let element = allQuestions.filter(element =>{
+    return element.id == elementId;
+  })[0];
+  if(element.status == "marked")
+    return false;
+
 if(radios != null){
   allQuestions.forEach(element =>{
       if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
-        if(element.status != "marked"){
           element.status = "answered";
-        }
       }
     });
 }else{
 allQuestions.forEach(element =>{
       if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
-        if(element.status != "marked"){
           element.status = "not-answered";
-        }
       }
     });
 }
@@ -101,6 +104,7 @@ Nextbtn.addEventListener("click",ShowNextQuestion);
 prevBtn.addEventListener("click",ShowPrevQuestion);
 FinishExam.addEventListener("click",sumbittingWithTrue);
 markForReviewbtn.addEventListener("click",markForReviewFunction);
+ClearAnswerbtn.addEventListener("click",ClearAnswerFunction);
 function LoadAllQuestions(){
     let i = 0;
     while(i < 10){
@@ -255,10 +259,13 @@ function sumbittingWithTrue(){Submitting(false)};
 function markForReviewFunction(){
   allQuestions.forEach(element =>{
     if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
-      if(element.status == "marked"){
-        ChangeQuestionStatus();
-      }else{
+      if(element.status != "marked"){
         element.status = "marked";
+        ChangeQuestionStatus();
+      }
+      else{
+        element.status = "";
+        ChangeQuestionStatus();
       }
     }
     MarkForReviewCheck();
@@ -276,4 +283,14 @@ function MarkForReviewCheck(){
       }
     }
 });
+}
+function ClearAnswerFunction(){
+  let HtmlElement = AllQuestionsInHtml[currentQuestionIndex];
+  let RadioCheck = HtmlElement.querySelector("input[type='radio']:checked");
+  if(RadioCheck != null){
+    RadioCheck.checked = false;
+    ChangeQuestionStatus();
+    LoadQuestionPalette();
+  }
+
 }
