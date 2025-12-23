@@ -235,8 +235,9 @@ AllHtmlQuestions.forEach(element => {
           ).length;
           ScoreResult.innerHTML = `Score: ${score} / ${allQuestions.length}`;
           Answers.forEach(element => {
+            let answerStatus = element.ChoosedAnswerKey == element.correctAnswer ? "correct" : "wrong";
             let elementCreator = `
-              <li class="result-item correct">
+              <li class="result-item ${answerStatus}">
                 <div class="ri-title">${element.title}</div>
                 <div class="ri-answers">
                   <div class="ri-chosen">
