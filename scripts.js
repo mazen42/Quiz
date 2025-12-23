@@ -20,6 +20,9 @@ let FinishExam = document.querySelector("#finish-exam");
 let ScoreResult = document.querySelector("#results-score");
 let sideBar = document.querySelector(".quiz-sidebar");
 let questionmeta = document.querySelector(".question-meta");
+let questionControls = document.querySelector(".question-controls");
+let markForReviewbtn = document.querySelector("#mark-review");
+let ClearAnswerbtn = document.querySelector("#clear-answer");
 let Answers = [];
 totalcount.innerHTML = allQuestions.length;
 total_index.innerHTML = allQuestions.length;
@@ -34,28 +37,37 @@ function UpdatecurrentQuestionNumber(){
   answered_count.innerHTML = currentQuestionIndex + 1;
 }
 UpdatecurrentQuestionNumber();
-function ShowNextQuestion(questionNumberFromPalette = null) {
-    if(currentQuestionIndex >= allQuestions.length - 1){
-        Nextbtn.innerHTML = "Submit";
-        Nextbtn.addEventListener("click",sumbittingWithTrue);
-        return false;
-    }else{
-      Nextbtn.innerHTML = "Next";
-    }
-let radios = AllQuestionsInHtml[currentQuestionIndex].querySelector("input[type='radio']:checked");
+function ChangeQuestionStatus(fromMark = false){
+  let radios = AllQuestionsInHtml[currentQuestionIndex].querySelector("input[type='radio']:checked");
 if(radios != null){
   allQuestions.forEach(element =>{
       if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
-        element.status = "answered";
+        if(element.status != "marked"){
+          element.status = "answered";
+        }
       }
     });
 }else{
 allQuestions.forEach(element =>{
       if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
-        element.status = "not-answered";
+        if(element.status != "marked"){
+          element.status = "not-answered";
+        }
       }
     });
 }
+}
+function ShowNextQuestion(questionNumberFromPalette = null) {
+    if(currentQuestionIndex >= allQuestions.length - 1){
+        Nextbtn.innerHTML = "Submit";
+        Nextbtn.addEventListener("click",sumbittingWithTrue);
+        ChangeQuestionStatus();
+        LoadQuestionPalette();
+        return false;
+    }else{
+      Nextbtn.innerHTML = "Next";
+    }
+ChangeQuestionStatus();
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
     if (typeof questionNumberFromPalette === "number") {
         currentQuestionIndex = questionNumberFromPalette;
@@ -63,27 +75,32 @@ allQuestions.forEach(element =>{
         currentQuestionIndex++;
     }
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
+    MarkForReviewCheck();
     UpdatecurrentQuestionNumber();
     LoadQuestionPalette();
 }
 function ShowPrevQuestion(){
   if(currentQuestionIndex > allQuestions.length - 1){
         Nextbtn.innerHTML = "Submit";
-        Nextbtn.removeEventListener("click",sumbittingWithTrue);
     }
     else{
       Nextbtn.innerHTML = "Next";
+        Nextbtn.removeEventListener("click",sumbittingWithTrue);
     }
   if(currentQuestionIndex <= 0)
     return false;
+  ChangeQuestionStatus();
+  LoadQuestionPalette();
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
     currentQuestionIndex--;
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
+    MarkForReviewCheck();
     UpdatecurrentQuestionNumber();
 }
 Nextbtn.addEventListener("click",ShowNextQuestion);
 prevBtn.addEventListener("click",ShowPrevQuestion);
 FinishExam.addEventListener("click",sumbittingWithTrue);
+markForReviewbtn.addEventListener("click",markForReviewFunction);
 function LoadAllQuestions(){
     let i = 0;
     while(i < 10){
@@ -139,6 +156,9 @@ function LoadAllQuestions(){
       btn.setAttribute("data-qid","1");
       btn.setAttribute("aria-label","Question");
       question_palette.appendChild(btn);
+      btn.addEventListener("click",function(){
+        ShowNextQuestion(i);
+      });
     }
 } 
 function Submitting(Forced = false) {
@@ -170,8 +190,8 @@ function Submitting(Forced = false) {
     IsolatedSubmit();
   }
 }
-function Timer(){
-  let totalSeconds = 30 * 60;
+function Timer(defaultOne = 30){
+  let totalSeconds = defaultOne * 60;
   const timerInterval = setInterval(() => {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
@@ -227,11 +247,33 @@ AllHtmlQuestions.forEach(element => {
           });
     QuestionBlock.classList.add("hidden");
     Results.classList.remove("hidden");
-    Nextbtn.classList.add("hidden");
-    prevBtn.classList.add("hidden");
+    questionControls.style.display = "none";
     sideBar.classList.add("hidden");
     questionmeta.style.display = "none";
   }
-  function sumbittingWithTrue() {
-  Submitting(false);
+function sumbittingWithTrue(){Submitting(false)};
+function markForReviewFunction(){
+  allQuestions.forEach(element =>{
+    if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
+      if(element.status == "marked"){
+        ChangeQuestionStatus();
+      }else{
+        element.status = "marked";
+      }
+    }
+    MarkForReviewCheck();
+    LoadQuestionPalette();
+  });
+}
+
+function MarkForReviewCheck(){
+  allQuestions.forEach(element =>{
+    if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
+      if(element.status == "marked"){
+        markForReviewbtn.classList.add("active");
+      }else{
+        markForReviewbtn.classList.remove("active");
+      }
+    }
+});
 }
