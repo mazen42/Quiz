@@ -30,6 +30,7 @@ window.onload = function(){
   LoadAllQuestions();
   LoadQuestionPalette();
   ShowNextQuestion(0);
+  addEventListenerToAllInputs();
   Timer();
 }
 function UpdatecurrentQuestionNumber(){
@@ -78,6 +79,14 @@ ChangeQuestionStatus();
         currentQuestionIndex++;
     }
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
+    let elementRadios = AllQuestionsInHtml[currentQuestionIndex].querySelectorAll("input[type='radio']");
+    elementRadios.forEach(element =>{
+      element.addEventListener("change",function(){
+        ChangeQuestionStatus();
+        LoadQuestionPalette();
+      });
+    });
+    ChangeQuestionStatus();
     MarkForReviewCheck();
     UpdatecurrentQuestionNumber();
     LoadQuestionPalette();
@@ -164,7 +173,7 @@ function LoadAllQuestions(){
         ShowNextQuestion(i);
       });
     }
-} 
+}
 function Submitting(Forced = false) {
     let AllHtmlQuestions = [...document.getElementsByClassName("question-body")];
     let theunsolvedQuestions = [];
@@ -226,10 +235,8 @@ AllHtmlQuestions.forEach(element => {
                   CorrectanswerText: q.options[q.correctAnswer]
                 });
               }
-
             });
           });
-
           let score = Answers.filter(e =>
             e.correctAnswer == e.ChoosedAnswerKey
           ).length;
@@ -273,7 +280,6 @@ function markForReviewFunction(){
     LoadQuestionPalette();
   });
 }
-
 function MarkForReviewCheck(){
   allQuestions.forEach(element =>{
     if(element.id == AllQuestionsInHtml[currentQuestionIndex].id){
@@ -293,5 +299,4 @@ function ClearAnswerFunction(){
     ChangeQuestionStatus();
     LoadQuestionPalette();
   }
-
 }
