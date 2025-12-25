@@ -63,13 +63,26 @@ allQuestions.forEach(element =>{
 }
 function ShowNextQuestion(questionNumberFromPalette = null) {
     if(currentQuestionIndex >= allQuestions.length - 1){
+      if(questionNumberFromPalette == null){
         Nextbtn.innerHTML = "Submit";
         Nextbtn.addEventListener("click",sumbittingWithTrue);
         ChangeQuestionStatus();
         LoadQuestionPalette();
         return false;
-    }else{
+      }else if(questionNumberFromPalette != null){
+        Nextbtn.innerHTML = "Submit";
+        Nextbtn.addEventListener("click",sumbittingWithTrue);
+        ChangeQuestionStatus();
+        LoadQuestionPalette();
+      }
+      if(questionNumberFromPalette < allQuestions.length - 1){
+        Nextbtn.innerHTML = "Next";
+        Nextbtn.removeEventListener("click",sumbittingWithTrue);
+      }
+    }
+    else{
       Nextbtn.innerHTML = "Next";
+      Nextbtn.removeEventListener("click",sumbittingWithTrue);
     }
 ChangeQuestionStatus();
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
@@ -90,6 +103,13 @@ ChangeQuestionStatus();
     MarkForReviewCheck();
     UpdatecurrentQuestionNumber();
     LoadQuestionPalette();
+    if(currentQuestionIndex >= allQuestions.length - 1){
+      Nextbtn.innerHTML = "Submit";
+      Nextbtn.addEventListener("click",sumbittingWithTrue);
+    }else{
+      Nextbtn.innerHTML = "Next";
+        Nextbtn.removeEventListener("click",sumbittingWithTrue);
+    }
 }
 function ShowPrevQuestion(){
   if(currentQuestionIndex > allQuestions.length - 1){
@@ -195,6 +215,7 @@ function Submitting(Forced = false) {
           Swal.fire("Submitted", "", "success");
           IsolatedSubmit();
         } else if (result.isDenied) {
+          ShowNextQuestion(currentQuestionIndex);
           Swal.fire("Go Resolve Them", "", "info");
         }
       });
