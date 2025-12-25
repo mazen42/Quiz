@@ -30,7 +30,6 @@ window.onload = function(){
   LoadAllQuestions();
   LoadQuestionPalette();
   ShowNextQuestion(0);
-  addEventListenerToAllInputs();
   Timer();
 }
 function UpdatecurrentQuestionNumber(){
@@ -62,29 +61,6 @@ allQuestions.forEach(element =>{
 }
 }
 function ShowNextQuestion(questionNumberFromPalette = null) {
-    if(currentQuestionIndex >= allQuestions.length - 1){
-      if(questionNumberFromPalette == null){
-        Nextbtn.innerHTML = "Submit";
-        Nextbtn.addEventListener("click",sumbittingWithTrue);
-        ChangeQuestionStatus();
-        LoadQuestionPalette();
-        return false;
-      }else if(questionNumberFromPalette != null){
-        Nextbtn.innerHTML = "Submit";
-        Nextbtn.addEventListener("click",sumbittingWithTrue);
-        ChangeQuestionStatus();
-        LoadQuestionPalette();
-      }
-      if(questionNumberFromPalette < allQuestions.length - 1){
-        Nextbtn.innerHTML = "Next";
-        Nextbtn.removeEventListener("click",sumbittingWithTrue);
-      }
-    }
-    else{
-      Nextbtn.innerHTML = "Next";
-      Nextbtn.removeEventListener("click",sumbittingWithTrue);
-    }
-ChangeQuestionStatus();
     AllQuestionsInHtml[currentQuestionIndex].classList.add("hidden");
     if (typeof questionNumberFromPalette === "number") {
         currentQuestionIndex = questionNumberFromPalette;
@@ -92,24 +68,28 @@ ChangeQuestionStatus();
         currentQuestionIndex++;
     }
     AllQuestionsInHtml[currentQuestionIndex].classList.remove("hidden");
-    let elementRadios = AllQuestionsInHtml[currentQuestionIndex].querySelectorAll("input[type='radio']");
-    elementRadios.forEach(element =>{
-      element.addEventListener("change",function(){
-        ChangeQuestionStatus();
-        LoadQuestionPalette();
-      });
+
+    if (currentQuestionIndex === allQuestions.length - 1) {
+        Nextbtn.innerHTML = "Submit";
+        Nextbtn.removeEventListener("click", sumbittingWithTrue);
+        Nextbtn.addEventListener("click", sumbittingWithTrue);
+    } else {
+        Nextbtn.innerHTML = "Next";
+        Nextbtn.removeEventListener("click", sumbittingWithTrue);
+    }
+    let elementRadios =
+        AllQuestionsInHtml[currentQuestionIndex].querySelectorAll("input[type='radio']");
+    elementRadios.forEach(el => {
+        el.onchange = () => {
+            ChangeQuestionStatus();
+            LoadQuestionPalette();
+        };
     });
+
     ChangeQuestionStatus();
     MarkForReviewCheck();
     UpdatecurrentQuestionNumber();
     LoadQuestionPalette();
-    if(currentQuestionIndex >= allQuestions.length - 1){
-      Nextbtn.innerHTML = "Submit";
-      Nextbtn.addEventListener("click",sumbittingWithTrue);
-    }else{
-      Nextbtn.innerHTML = "Next";
-        Nextbtn.removeEventListener("click",sumbittingWithTrue);
-    }
 }
 function ShowPrevQuestion(){
   if(currentQuestionIndex > allQuestions.length - 1){
@@ -215,7 +195,6 @@ function Submitting(Forced = false) {
           Swal.fire("Submitted", "", "success");
           IsolatedSubmit();
         } else if (result.isDenied) {
-          ShowNextQuestion(currentQuestionIndex);
           Swal.fire("Go Resolve Them", "", "info");
         }
       });
