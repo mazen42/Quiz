@@ -177,7 +177,12 @@ input:focus, textarea:focus, select:focus{outline:3px solid rgba(37,99,235,0.12)
   background: #fff3cd;
   color: #856404;
 }
-
+.correct-answer{
+  background-color:#d4edda !important;
+  border-color:#28a745 !important;
+  border:1px solid #28a745 !important;
+  color:#155724 !important;
+}
 .preview-difficulty strong.hard {
   background: #f8d7da;
   color: #721c24;
