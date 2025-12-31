@@ -61,3 +61,124 @@ textarea{resize:vertical}
 
 /* focus polish */
 input:focus, textarea:focus, select:focus{outline:3px solid rgba(37,99,235,0.12);outline-offset:2px}
+.preview-container {
+  flex: 1;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 2px solid #e0e0e0;
+  background: #fff;
+}
+
+.preview-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.preview-clear-btn:hover {
+  background: #ff5252;
+}
+
+.preview-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.preview-question {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview-question-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.preview-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.preview-option {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 40px;
+}
+
+.preview-option:hover {
+  border-color: #4a90e2;
+  background: #e8f0ff;
+}
+
+.preview-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #999;
+  font-size: 16px;
+  text-align: center;
+}
+.preview-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.preview-category,
+.preview-difficulty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-category strong,
+.preview-difficulty strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.preview-difficulty strong {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #f0f0f0;
+}
+
+.preview-difficulty strong.easy {
+  background: #d4edda;
+  color: #155724;
+}
+
+.preview-difficulty strong.medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.preview-difficulty strong.hard {
+  background: #f8d7da;
+  color: #721c24;
+}
