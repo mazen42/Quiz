@@ -37,7 +37,6 @@ let questionmeta = document.querySelector(".question-meta");
 let questionControls = document.querySelector(".question-controls");
 let markForReviewbtn = document.querySelector("#mark-review");
 let ClearAnswerbtn = document.querySelector("#clear-answer");
-let Answers = [];
 totalcount.innerHTML = allQuestions.length;
 total_index.innerHTML = allQuestions.length;
 window.onload = function(){
@@ -129,45 +128,46 @@ FinishExam.addEventListener("click",sumbittingWithTrue);
 markForReviewbtn.addEventListener("click",markForReviewFunction);
 ClearAnswerbtn.addEventListener("click",ClearAnswerFunction);
 function LoadAllQuestions(){
-    let i = 0;
-    while(i < allQuestions.length){
+    for(let i = 0; i < allQuestions.length; i++){
         let currentQuestion = allQuestions[order[i] - 1];
-        let QuestionBuilder = `
-       <div class="question-body hidden" id="${currentQuestion.id}" data-question-number="${i + 1}">
-            <h2 id="q-title-2" class="question-title">${currentQuestion.title}</h2>
-            <p class="question-description">Select the correct answer from the choices below.</p>
-            <form class="options-form" id="options-form" onsubmit="return false;">
-              <ul class="options-list" role="list">
-                <li class="option-item">
-                  <label class="option-label">
-                    <input type="radio" name="${currentQuestion.id}" value="A" data-choice="A" />
-                    <span class="option-text">A.${currentQuestion.options.A}</span>
-                  </label>
-                </li>
-                <li class="option-item">
-                  <label class="option-label">
-                    <input type="radio" name="${currentQuestion.id}" value="B" data-choice="B" />
-                    <span class="option-text">B.${currentQuestion.options.B}</span>
-                  </label>
-                </li>
-                <li class="option-item">
-                  <label class="option-label">
-                    <input type="radio" name="${currentQuestion.id}" value="C" data-choice="C" />
-                    <span class="option-text">C.${currentQuestion.options.C}</span>
-                  </label>
-                </li>
-                <li class="option-item">
-                  <label class="option-label">
-                    <input type="radio" name="${currentQuestion.id}" value="D" data-choice="D" />
-                    <span class="option-text">D.${currentQuestion.options.D}</span>
-                  </label>
-                </li>
-              </ul>
-            </form>
-          </div>
-        `;
-        QuestionBlock.innerHTML += QuestionBuilder;
-        i++;
+        let mainDiv = document.createElement("div");
+        mainDiv.className = "question-body hidden";
+        mainDiv.id = currentQuestion.id;
+        mainDiv.setAttribute("data-question-number",i + 1);
+        let h2 = document.createElement("h2")
+        h2.id = "q-title-2"
+        h2.className = "question-title";
+        h2.textContent = currentQuestion.title;
+        let p = document.createElement("p");
+        p.className = "question-description";
+        p.textContent = "Select the correct answer from the choices below.";
+        let form = document.createElement("form");
+        form.className = "options-form";
+        form.id = "options-form";
+        form.addEventListener("submit", () => false);
+        let ul = document.createElement("ul");
+        ul.className = "options-list";
+        ul.setAttribute("role","list");
+        Object.keys(currentQuestion.options).forEach(element => {
+          let li = document.createElement("li");
+          li.className = "option-item";
+          let label = document.createElement("label");
+          label.className = "option-label";
+          let input = document.createElement("input");
+          input.type = "radio";
+          input.name = currentQuestion.id;
+          input.value = element;
+          input.setAttribute("data-choice",`${currentQuestion.value}`);
+          let span = document.createElement("span");
+          span.className = "option-text";
+          span.textContent = `${currentQuestion.options[element]}.`;
+          li.appendChild(label);
+          label.append(input,span);
+          ul.appendChild(li);
+        });
+        form.appendChild(ul);
+        mainDiv.append(h2,p,form);
+        QuestionBlock.appendChild(mainDiv);
         }
     }
     function LoadQuestionPalette(){
@@ -212,6 +212,8 @@ function Submitting(Forced = false) {
           Swal.fire("Go Resolve Them", "", "info");
         }
       });
+    }else{
+      IsolatedSubmit();
     }
   } else {
     IsolatedSubmit();
@@ -234,6 +236,7 @@ function Timer(defaultOne = 30){
 }
 function IsolatedSubmit(){
   let AllHtmlQuestions = [...document.getElementsByClassName("question-body")];
+  let Answers = [];
 AllHtmlQuestions.forEach(element => {
             allQuestions.forEach(q => {
               let choosedOnekey =
@@ -265,7 +268,7 @@ AllHtmlQuestions.forEach(element => {
                     Your answer: <strong>${element.ChoosedAnswerText}</strong>
                   </div>
                   <div class="ri-correct">
-                    Correct: <strong>${element.correctAnswer} ${element.CorrectanswerText}</strong>
+                    Correct: <strong>${element.correctAnswer}. ${element.CorrectanswerText}</strong>
                   </div>
                 </div>
               </li>`;

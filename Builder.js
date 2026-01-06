@@ -40,7 +40,7 @@ function Submit(){
           id : i,
           title : element.querySelector("#textareaId").value,
           category : element.querySelector("#categoryId").value,
-          corrcetAnswer : element.querySelector("input[type='radio']:checked").value,
+          correctAnswer : element.querySelector("input[type='radio']:checked").value,
           options : obj,
           status: "not-visited"
         });
