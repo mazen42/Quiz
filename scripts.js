@@ -1,8 +1,22 @@
-import questions from './Questions.js';
+
+let allQuestions = [{
+    id: 1,
+    title: "Which is the largest planet in our solar system?",
+    category: "Science",
+    options: {
+      A: "Jupiter",
+      B: "Mars",
+      C: "Earth",
+      D: "Venus"
+    },
+    correctAnswer: "A",
+    status : "not-visited"
+  }];
+if(window.localStorage.getItem("Questions"))
+  allQuestions = JSON.parse(window.localStorage.getItem("Questions")) || []
 import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/+esm';
-const order = Array.from({ length: questions.length }, (_, i) => i + 1);
+const order = Array.from({ length: allQuestions.length }, (_, i) => i + 1);
 order.sort(() => Math.random() - 0.5);
-let allQuestions = questions;
 let currentQuestionIndex = 0;
 let Nextbtn = document.querySelector("#bottom-next");
 let prevBtn = document.querySelector("#bottom-prev");
@@ -116,7 +130,7 @@ markForReviewbtn.addEventListener("click",markForReviewFunction);
 ClearAnswerbtn.addEventListener("click",ClearAnswerFunction);
 function LoadAllQuestions(){
     let i = 0;
-    while(i < 10){
+    while(i < allQuestions.length){
         let currentQuestion = allQuestions[order[i] - 1];
         let QuestionBuilder = `
        <div class="question-body hidden" id="${currentQuestion.id}" data-question-number="${i + 1}">

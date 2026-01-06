@@ -1,6 +1,4 @@
 import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/+esm';
-
-let Questions = [];
 let questionNumber = 1;
 let addQuestionbtn = document.getElementById("add-Question");
 let builderShell = document.querySelector(".builder-shell");
@@ -8,12 +6,17 @@ let savebtn = document.querySelector("#saveId");
 savebtn.addEventListener("click",function(){
   Submit();
 })
-window.onload = addQuestionFunction;
+window.onload = function(){
+  addQuestionFunction();
+  if(window.localStorage.getItem("Questions"))
+    window.localStorage.removeItem("Questions");
+}
 addQuestionbtn.addEventListener("click",function(el){
     el.preventDefault();
     addQuestionFunction();
 });
 function Submit(){
+  let Questions = [];
   let allQuestions = document.querySelectorAll(".builder-main");
   allQuestions.forEach(element => {
       if(element.querySelector("#textareaId").value == "")
@@ -25,10 +28,28 @@ function Submit(){
       let textoptionCheck = [...element.querySelectorAll("#radioTextId")].some(element => element.value == "");
       if(textoptionCheck)
        fire(`there is some empty option at question ${element.id}`);
-
   });
+      let i = 1;
+      allQuestions.forEach(element => {
+        let obj = {};
+        let allOptions = [...element.querySelectorAll("#labeloptionId")];
+          allOptions.forEach(x => {
+            obj[x.querySelector("input[type='radio']").value] = x.querySelector("#radioTextId").value;
+          });
+        Questions.push({
+          id : i,
+          title : element.querySelector("#textareaId").value,
+          category : element.querySelector("#categoryId").value,
+          corrcetAnswer : element.querySelector("input[type='radio']:checked").value,
+          options : obj,
+          status: "not-visited"
+        });
+        i++;
+      });
+      window.localStorage.setItem("Questions",JSON.stringify(Questions));
+      
 
-}
+  }
 function addQuestionFunction(){
     const main = document.createElement("main");
     main.className = "builder-main";
@@ -208,6 +229,7 @@ function createOption(btn){
     let li = document.createElement("li");
     li.className = "option-item";
     let label = document.createElement("label");
+    label.id = "labeloptionId";
     let deleteOptionbtn = document.createElement("button");
     deleteOptionbtn.addEventListener("click",function (){
         if(ulofOptions.children.length === 2){
