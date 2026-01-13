@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Currencee — Currency Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Currencee.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-brand">
+        <div class="logo">◧</div>
+        <div>
+          <h1 class="brand-name">Currencee</h1>
+          <p class="brand-sub">The world's most trusted, fast and secure currency converter</p>
+        </div>
+      </div>
+      <div class="status-area">
+        <button class="api-status" aria-live="polite">API Status <span class="dot online"></span></button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="converter-wrap">
+        <div class="converter-card">
+          <div class="converter-left">
+
+            <label class="field">
+              <div class="field-label">Amount</div>
+              <div class="input-pill">
+                <span class="input-prefix">$</span>
+                <input id="amount" class="input" type="text" inputmode="decimal" value="0">
+              </div>
+            </label>
+
+            <label class="field">
+              <div class="field-label">Base Currency</div>
+              <div class="select-pill" id="base-select">
+                <select id="currency1" >
+</select>
+              </div>
+            </label>
+              <button class="swap-btn" style="margin-left: 90%;" aria-label="Swap currencies">Swap</button>
+            <div class="swap-row">
+              <label class="field flex-1">
+                <div class="field-label">Foreign Currency</div>
+                <div class="select-pill" id="foreign-select">
+                  <select id="currency2">
+</select>
+                </div>
+              </label>
+
+
+            </div>
+
+            <button class="convert-btn" type="button">Convert</button>
+
+          </div>
+
+          <aside class="converter-right">
+            <div class="result-box">
+              <div class="result-top">
+                <div class="small" id="mainResultlittle">0 =</div>
+                <div class="big" id="mainResult">₦0.00</div>
+              </div>
+              <div class="rates">
+                <div id="first-curr"></div>
+                <div id="second-curr"></div>
+              </div>
+              <div class="powered">Powered by <a href="#" target="_blank">Currencybeacon</a></div>
+            </div>
+          </aside>
+        </div>
+
+        <footer class="card-footer">
+          <div class="left">Built by <a href="#">Victor Eke</a></div>
+          <div class="right">Theme: <button class="theme-toggle">Light</button></div>
+        </footer>
+      </section>
+    </main>
+    <script src="Currencee.js"></script>
+  </body>
+</html>

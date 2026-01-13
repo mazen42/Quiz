@@ -142,7 +142,6 @@ function addQuestionFunction(){
       </div>
       <p class="preview-question-text">Question title</p>
       <div class="preview-options">
-        
       </div>
     </div>
     <div class="preview-empty-state">
